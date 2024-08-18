@@ -12,7 +12,7 @@ import lombok.Data;
 public class Note {
     @Id
     private long id;
-    //   private UUID id;
+
     @Column
     private String title;
     @Column

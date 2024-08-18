@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class NoteService {
 
 
     public List<Note> getNotes(){
-        //        log.info("---listAll");
+
         return noteRepository.findAll();
     }
     public Note create(Note note) {
@@ -29,19 +30,20 @@ public class NoteService {
         return noteRepository.save(note);
     }
 
-        public void deleteById(long id)   {
+
+    public Note save( Note note) {
+
+        return noteRepository.save(note);
+    }
+
+    public void deleteById(long id)   {
 
         Note entity= noteRepository.getById(id);
         noteRepository.delete(entity);
 
     }
-    public Note save( Note note) {
-
-        return noteRepository.save(note);
-    }
-    public    Note getById(long id)  throws Exception {
-
-        return noteRepository.getById(id);
+    public Optional<Note> getById(long id)  throws Exception {
+        return noteRepository.findById(id);
     }
 
 }

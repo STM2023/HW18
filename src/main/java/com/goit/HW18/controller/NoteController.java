@@ -1,6 +1,7 @@
 package com.goit.HW18.controller;
 
 import com.goit.HW18.data.Note;
+import com.goit.HW18.service.NoteResponse;
 import com.goit.HW18.service.NoteService;
 import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,7 +17,11 @@ import java.util.List;
 public class NoteController {
     private final NoteService noteService;
 
+    @GetMapping("/getNotes")
+    public List<Note> findAll() {
 
+        return noteService.getNotes();
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -28,21 +34,7 @@ public class NoteController {
 
         return noteService.save(note);
     }
-//    @GetMapping
-//
-//        public Note findById(@RequestParam(name = "id") Long id) throws Exception {
-//        return noteService.getById(id);
-//    }
-    @GetMapping("/getNotes")
-    public List<Note> findAll() {
 
-        return noteService.getNotes();
-    }
-
-//    @DeleteMapping
- //   public void  delete( @RequestParam(name = "id") long id) {
-  //       noteService.deleteById(id);
-  //  }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -50,9 +42,16 @@ public class NoteController {
             noteService.deleteById(id);
             return ResponseEntity.noContent().build();
         } catch (Exception ex) {
-            //Bad practice
+
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/{id}")
+    public Optional<Note> findById(@PathVariable Long id) throws Exception {
+
+        return noteService.getById(id);
+    }
+
 
 }
